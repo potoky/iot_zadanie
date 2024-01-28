@@ -1,3 +1,4 @@
+#salena verzia z gitu
 from machine import Pin, PWM
 from time import sleep
 import network
