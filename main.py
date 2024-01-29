@@ -1,4 +1,4 @@
-#salena verzia z gitu zase skusobna zase a odznova a zase a neviem, ci to funguje :D
+#salena verzia z gitu zase skusobna zase a odznova a zase a neviem, ci to funguje
 from machine import Pin, PWM
 from time import sleep
 import network
