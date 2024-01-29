@@ -1,11 +1,12 @@
-#porazi ma v desattisicich styloch zas a znova, lebo idu pomaly tie commity
+#taky saleny dalsi commit cez ota, lebo ma porazuje
 from machine import Pin, PWM
 from time import sleep
 import network
 import time
+import utime
+import ntptime
 from umqtt.simple import MQTTClient
 from PICO_CONFIG import *
-from ota_test import *
 
 buzzer = PWM(Pin(14))
 ledka=Pin(15,Pin.OUT)
@@ -34,19 +35,27 @@ def do_connect(ssid, password):
     
 # Connect to MQTT Broker
 def connect_mqtt():
-    client = MQTTClient(CLIENT_ID, MQTT_BROKER)
+    client = MQTTClient(CLIENT_ID, MQTT_BROKER, PORT, MQTT_USERNAME, MQTT_PASSWORD)
     return client
 
 # Send Data to MQTT Broker
 def send_mqtt(client, message):
-    client.publish(MQTT_TOPIC, message)
+    client.publish(MQTT_TOPIC_SOUND_111201, message)
     print(f'Sent to MQTT Broker: {message}')
     
 def measure():
     try:
-        sound = sensor.value()
+        sound_value = sensor.value()
         
-        if sound == 1:
+        rtc_time = rtc.datetime()
+        
+        datetime_str = "{:04d}-{:02d}-{:02d}T{:02d}:{:02d}:{:02d}.{:06d}Z".format(
+            rtc_time[0], rtc_time[1], rtc_time[2], rtc_time[4], rtc_time[5], rtc_time[6], rtc_time[7]
+        )
+        
+        print(f'Sound is: {sound_value}')
+        
+        if sound_value == 1:
             buzzer.freq(g)
             buzzer.duty_u16(500)
             sleep(1)
@@ -59,8 +68,10 @@ def measure():
             sleep(1)
             buzzer.freq(f)
             sleep(1)
-            buzzer.duty_u16(0)
-        return f'Sound is: {sound}'
+            buzzer.duty_u16(0)    
+
+        msg = '{\"sound\":' + str(sound_value) + ',' + '\"date\":\"' + datetime_str +'\"}'
+        return msg
     except OSError as e:
         return 'Failed to read sensor.'
     
@@ -76,25 +87,21 @@ def subscribe_callback(topic, message):
     if message == "c":
         in_f = False
         
-    print(message)  
+    print(f'Message is: {message}')
 
-# do_connect(SSID, PASSWORD)
+do_connect(SSID, PASSWORD)
+
+# ntptime.settime()
+rtc = machine.RTC()
 
 mqtt_client = connect_mqtt()
 mqtt_client.set_callback(subscribe_callback)
 mqtt_client.connect()
-mqtt_client.subscribe(MQTT_TOPIC_SOUND_1)
-
-i = 0
+mqtt_client.subscribe(MQTT_TOPIC_SOUND_111201_SET)
 
 while True:
     mqtt_client.check_msg()
     measures = measure()
     send_mqtt(mqtt_client, measures)
-    check_ota_updates()
-    sleep(10)
+    sleep(2)
     print(f'in_f: {in_f}')
-    
-    i+=1
-    if i == 4:
-        break
