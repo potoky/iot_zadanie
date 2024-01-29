@@ -1,4 +1,4 @@
-#ahoj anna
+#ahoj janik super si
 from machine import Pin, PWM
 from time import sleep
 import network
