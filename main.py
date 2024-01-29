@@ -1,10 +1,10 @@
-#cuaky Janko, ako sa mas?
+#anicka je laska
 from machine import Pin, PWM
 from time import sleep
 import network
 import time
 import utime
-import ntptime
+import json
 from umqtt.simple import MQTTClient
 from PICO_CONFIG import *
 
@@ -12,11 +12,11 @@ buzzer = PWM(Pin(14))
 ledka=Pin(15,Pin.OUT)
 sensor = Pin(16, Pin.IN, Pin.PULL_DOWN)
 
+let_state = False
+delay = 2
 f = 349
 g = 392
 a = 440
-
-ledka.value(True)
 
 buzzer.freq(g)
 buzzer.duty_u16(0)
@@ -70,40 +70,48 @@ def measure():
             sleep(1)
             buzzer.freq(f)
             sleep(1)
-            buzzer.duty_u16(0)    
-
-        msg = '{\"sound\":' + str(sound_value) + ',' + '\"date\":\"' + datetime_str +'\"}'
-        return msg
+            buzzer.duty_u16(0)
+        
+        return {
+                "dt": datetime_str,
+                "name":"MariaDB zvukovy senzor",
+                "id": "111201",
+                "sound":sound_value
+                }
     except OSError as e:
         return 'Failed to read sensor.'
     
     
 def subscribe_callback(topic, message):
-    global in_f
-    
+    global delay
+    global led_state
     topic = topic.decode('utf-8')
     message = message.decode('utf-8')
     
-    if message == "f":
-        in_f = True
-    if message == "c":
-        in_f = False
+    data = json.loads(message)
+    if 'delay' in data:
+        delay = data['delay']
+        
+    if 'led1' in data:
+        led_state = data['led1']
+    
         
     print(f'Message is: {message}')
 
 do_connect(SSID, PASSWORD)
 
-# ntptime.settime()
 rtc = machine.RTC()
 
 mqtt_client = connect_mqtt()
 mqtt_client.set_callback(subscribe_callback)
 mqtt_client.connect()
 mqtt_client.subscribe(MQTT_TOPIC_SOUND_111201_SET)
+mqtt_client.subscribe(MQTT_TOPIC_SOUND_111205_LED)
 
 while True:
     mqtt_client.check_msg()
+    led.value(led_state)
     measures = measure()
-    send_mqtt(mqtt_client, measures)
-    sleep(2)
+    send_mqtt(mqtt_client, json.dumps(measures))
+    sleep(delay)
     print(f'in_f: {in_f}')
