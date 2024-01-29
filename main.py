@@ -1,4 +1,4 @@
-#wsedrftgyhuj
+#dfdfdf
 from machine import Pin, PWM
 from time import sleep
 import network
@@ -108,7 +108,7 @@ mqtt_client.subscribe(MQTT_TOPIC_LED_111205_SET)
 
 while True:
     mqtt_client.check_msg()
-    led.value(led_state)
+    ledka.value(led_state)
     measures = measure()
     send_mqtt(mqtt_client, json.dumps(measures))
     sleep(delay)
