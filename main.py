@@ -16,6 +16,8 @@ f = 349
 g = 392
 a = 440
 
+ledka.value(True)
+
 buzzer.freq(g)
 buzzer.duty_u16(0)
 
