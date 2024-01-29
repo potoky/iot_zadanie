@@ -1,4 +1,4 @@
-#taky saleny dalsi commit cez ota, lebo ma porazuje
+#cuaky Janko, ako sa mas?
 from machine import Pin, PWM
 from time import sleep
 import network
