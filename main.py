@@ -1,4 +1,4 @@
-#ahoj janik super si
+#porazi ma v desattisicich styloch
 from machine import Pin, PWM
 from time import sleep
 import network
