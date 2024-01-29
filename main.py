@@ -1,4 +1,4 @@
-#porazi ma v desattisicich styloch
+#porazi ma v desattisicich styloch zas a znova, lebo idu pomaly tie commity
 from machine import Pin, PWM
 from time import sleep
 import network
