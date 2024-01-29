@@ -1,4 +1,4 @@
-#salena verzia z gitu zase skusobna
+#salena verzia z gitu zase skusobna zase a odznova
 from machine import Pin, PWM
 from time import sleep
 import network
