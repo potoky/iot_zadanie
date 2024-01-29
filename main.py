@@ -1,4 +1,4 @@
-#anicka je laska
+#wsedrftgyhuj
 from machine import Pin, PWM
 from time import sleep
 import network
@@ -12,7 +12,7 @@ buzzer = PWM(Pin(14))
 ledka=Pin(15,Pin.OUT)
 sensor = Pin(16, Pin.IN, Pin.PULL_DOWN)
 
-let_state = False
+led_state = False
 delay = 2
 f = 349
 g = 392
@@ -20,8 +20,6 @@ a = 440
 
 buzzer.freq(g)
 buzzer.duty_u16(0)
-
-in_f = False
 
 def do_connect(ssid, password):
     import network
@@ -106,7 +104,7 @@ mqtt_client = connect_mqtt()
 mqtt_client.set_callback(subscribe_callback)
 mqtt_client.connect()
 mqtt_client.subscribe(MQTT_TOPIC_SOUND_111201_SET)
-mqtt_client.subscribe(MQTT_TOPIC_SOUND_111205_LED)
+mqtt_client.subscribe(MQTT_TOPIC_LED_111205_SET)
 
 while True:
     mqtt_client.check_msg()
@@ -114,4 +112,4 @@ while True:
     measures = measure()
     send_mqtt(mqtt_client, json.dumps(measures))
     sleep(delay)
-    print(f'in_f: {in_f}')
+    
