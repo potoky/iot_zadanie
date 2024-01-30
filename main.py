@@ -1,7 +1,6 @@
-#zmena
+#tuna, super skript
 from machine import Pin, PWM
 from time import sleep
-import network
 import time
 import utime
 import json
@@ -12,8 +11,6 @@ from PICO_CONFIG import *
 buzzer = PWM(Pin(14))
 ledka=Pin(15,Pin.OUT)
 sensor = Pin(16, Pin.IN, Pin.PULL_DOWN)
-pico_led = Pin('LED', Pin.OUT)
-pico_led.off()
 
 led_state = False
 delay = 2
@@ -102,13 +99,10 @@ def subscribe_callback(topic, message):
         
     if 'led1' in data:
         led_state = data['led1']
-        pico_led.value(int(led_state))
         
-        print(led_state)
-        
-#        sleep(2)
-#        if led_state == True:
-#            do_update()
+#         sleep(2)
+#         if led_state == True:
+#             do_update()
         
 #     if 'update' in data:
 #         if data['update'] == True:
@@ -117,7 +111,7 @@ def subscribe_callback(topic, message):
         
     print(f'Message is: {message}')
 
-#do_connect(SSID, PASSWORD)
+# do_connect(SSID, PASSWORD)
 
 rtc = machine.RTC()
 
@@ -126,6 +120,8 @@ mqtt_client.set_callback(subscribe_callback)
 mqtt_client.connect()
 mqtt_client.subscribe(MQTT_TOPIC_SOUND_111201_SET)
 mqtt_client.subscribe(MQTT_TOPIC_LED_111205_SET)
+# mqtt_client.subscribe(MQTT_TOPIC_UPDATE_111205_SET)
+
 
 while True:
     mqtt_client.check_msg()
