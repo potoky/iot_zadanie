@@ -1,4 +1,4 @@
-#utorok rano
+#utorok rano pico nejde samo
 from machine import Pin, PWM
 from time import sleep
 import network
