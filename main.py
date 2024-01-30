@@ -71,7 +71,7 @@ def measure():
             buzzer.duty_u16(0)
         
         return {
-                "dt": datetime_str,
+                "ts": datetime_str,
                 "name":"MariaDB zvukovy senzor",
                 "id": "111201",
                 "sound":sound_value
