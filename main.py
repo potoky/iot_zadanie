@@ -101,6 +101,9 @@ def subscribe_callback(topic, message):
     if 'led1' in data:
         led_state = data['led1']
         pico_led.value(int(led_state))
+        
+        print(led_state)
+        
         sleep(2)
         if led_state == True:
             do_update()
