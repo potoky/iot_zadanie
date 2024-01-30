@@ -117,7 +117,7 @@ def subscribe_callback(topic, message):
         
     print(f'Message is: {message}')
 
-do_connect(SSID, PASSWORD)
+#do_connect(SSID, PASSWORD)
 
 rtc = machine.RTC()
 
