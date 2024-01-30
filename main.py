@@ -12,7 +12,7 @@ buzzer = PWM(Pin(14))
 ledka=Pin(15,Pin.OUT)
 sensor = Pin(16, Pin.IN, Pin.PULL_DOWN)
 pico_led = Pin('LED', Pin.OUT)
-
+pico_led.off()
 
 led_state = False
 delay = 2
