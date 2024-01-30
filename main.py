@@ -1,4 +1,4 @@
-#uvidime
+#odznova
 from machine import Pin, PWM
 from time import sleep
 import network
@@ -15,7 +15,6 @@ sensor = Pin(16, Pin.IN, Pin.PULL_DOWN)
 pico_led = Pin('LED', Pin.OUT)
 pico_led.off()
 
-global wlan
 led_state = False
 delay = 2
 f = 349
@@ -40,7 +39,6 @@ def do_connect(ssid, password):
     
 def do_update():
     try:
-        wlan.disconnect()
         machine.reset()
     except RuntimeError as e:
         print(e)
