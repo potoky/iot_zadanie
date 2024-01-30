@@ -106,9 +106,9 @@ def subscribe_callback(topic, message):
         
         print(led_state)
         
-        sleep(2)
-        if led_state == True:
-            do_update()
+#        sleep(2)
+#        if led_state == True:
+#            do_update()
         
 #     if 'update' in data:
 #         if data['update'] == True:
