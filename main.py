@@ -1,4 +1,4 @@
-#dfdfdf
+#novy subor na stiahnutie
 from machine import Pin, PWM
 from time import sleep
 import network
