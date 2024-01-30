@@ -1,4 +1,4 @@
-#novy subor na stiahnutie
+#utorok rano
 from machine import Pin, PWM
 from time import sleep
 import network
