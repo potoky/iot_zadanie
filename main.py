@@ -1,4 +1,4 @@
-#skusanie novej aktualizacie
+#aktualizovane na mqtt
 from machine import Pin, PWM
 from time import sleep
 import network
