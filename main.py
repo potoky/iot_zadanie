@@ -37,7 +37,7 @@ def do_connect(ssid, password):
 def do_update():
     try:
         wlan.disconnect()
-        machine.restart()
+        machine.reset()
     except RuntimeError as e:
         print(e)
     
