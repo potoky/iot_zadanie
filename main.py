@@ -1,10 +1,11 @@
-#utorok rano pico nejde samo
+#skusanie novej aktualizacie
 from machine import Pin, PWM
 from time import sleep
 import network
 import time
 import utime
 import json
+import machine
 from umqtt.simple import MQTTClient
 from PICO_CONFIG import *
 
@@ -32,6 +33,13 @@ def do_connect(ssid, password):
             pass
     print('network config:', wlan.ifconfig())
     
+    
+def do_update():
+    try:
+        wlan.disconnect()
+        machine.restart()
+    except RuntimeError as e:
+        print(e)
     
 # Connect to MQTT Broker
 def connect_mqtt():
@@ -71,7 +79,7 @@ def measure():
             buzzer.duty_u16(0)
         
         return {
-                "ts": datetime_str,
+                "dt": datetime_str,
                 "name":"MariaDB zvukovy senzor",
                 "id": "111201",
                 "sound":sound_value
@@ -92,6 +100,13 @@ def subscribe_callback(topic, message):
         
     if 'led1' in data:
         led_state = data['led1']
+        sleep(2)
+        if led_state == True:
+            do_update()
+        
+#     if 'update' in data:
+#         if data['update'] == True:
+#             do_update()
     
         
     print(f'Message is: {message}')
