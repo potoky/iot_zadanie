@@ -12,6 +12,8 @@ from PICO_CONFIG import *
 buzzer = PWM(Pin(14))
 ledka=Pin(15,Pin.OUT)
 sensor = Pin(16, Pin.IN, Pin.PULL_DOWN)
+pico_led = Pin('LED', Pin.OUT)
+
 
 led_state = False
 delay = 2
@@ -100,6 +102,7 @@ def subscribe_callback(topic, message):
         
     if 'led1' in data:
         led_state = data['led1']
+        pico_led.value(led_state)
         sleep(2)
         if led_state == True:
             do_update()
