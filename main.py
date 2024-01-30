@@ -1,3 +1,4 @@
+#uvidime
 from machine import Pin, PWM
 from time import sleep
 import network
@@ -14,6 +15,7 @@ sensor = Pin(16, Pin.IN, Pin.PULL_DOWN)
 pico_led = Pin('LED', Pin.OUT)
 pico_led.off()
 
+global wlan
 led_state = False
 delay = 2
 f = 349
@@ -24,6 +26,7 @@ buzzer.freq(g)
 buzzer.duty_u16(0)
 
 def do_connect(ssid, password):
+    
     import network
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
@@ -37,6 +40,7 @@ def do_connect(ssid, password):
     
 def do_update():
     try:
+        wlan.disconnect()
         machine.reset()
     except RuntimeError as e:
         print(e)
